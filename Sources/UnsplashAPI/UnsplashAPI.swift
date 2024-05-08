@@ -35,10 +35,10 @@ public class UnsplashAPI {
 }
 
 public struct UnsplashPhoto: Decodable {
-    let id: String
-    let urls: URLs
+    public let id: String
+    public let urls: URLs
 }
 
 public struct URLs: Decodable {
-    let regular: URL
+    public let regular: URL
 }
