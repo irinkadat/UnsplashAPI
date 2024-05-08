@@ -7,13 +7,17 @@ public class UnsplashAPI {
         self.apiKey = apiKey
     }
     
-    public func fetchPhotos(completion: @escaping ([UnsplashPhoto]?, Error?) -> Void) {
+    public func fetchPhotos(page: Int, perPage: Int, completion: @escaping ([UnsplashPhoto]?, Error?) -> Void) {
         let urlString = "https://api.unsplash.com/photos"
         guard var urlComponents = URLComponents(string: urlString) else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
             return
         }
-        urlComponents.queryItems = [URLQueryItem(name: "client_id", value: apiKey)]
+        urlComponents.queryItems = [
+            URLQueryItem(name: "client_id", value: apiKey),
+            URLQueryItem(name: "page", value: String(page)),
+            URLQueryItem(name: "per_page", value: String(perPage))
+        ]
         guard let url = urlComponents.url else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
             return
