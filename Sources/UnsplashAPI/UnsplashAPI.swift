@@ -1,12 +1,10 @@
 import Foundation
 
 public class UnsplashAPI {
-    public let apiKey: String
-    private let networkService: NetworkService
+    private let apiKey: String
     
-    public init(apiKey: String, networkService: NetworkService) {
+    public init(apiKey: String) {
         self.apiKey = apiKey
-        self.networkService = networkService
     }
     
     public func fetchPhotos(page: Int, perPage: Int, completion: @escaping ([UnsplashPhoto]?, Error?) -> Void) {
@@ -25,7 +23,7 @@ public class UnsplashAPI {
             return
         }
         
-        networkService.fetchData(from: url) { data, error in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
                 completion(nil, error)
                 return
@@ -36,8 +34,7 @@ public class UnsplashAPI {
             } catch {
                 completion(nil, error)
             }
-        }
+        }.resume()
     }
 }
-
 
